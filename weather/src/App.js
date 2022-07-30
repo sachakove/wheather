@@ -23,6 +23,7 @@ const App = () => {
 
   useEffect(() => {
     if (key !== "") getForecasts();
+    console.log(data);
   }, [key]);
 
   return (
@@ -30,7 +31,9 @@ const App = () => {
       <Header onForecasts={getLocKey} />
       {/* TODO Add Content Component */}
       {/* Showing Data from Header's Request */}
-      <Forecasts data={data} />
+      {data?.DailyForecasts && (
+        <Forecasts data={data.DailyForecasts} condition={data?.Headline.Text} />
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import classes from "./Forecasts.module.css";
 
 const Forecasts = (props) => {
-  const { data } = props;
+  const { data, condition } = props;
 
   useEffect(() => {
     console.log(data);
@@ -21,20 +21,21 @@ const Forecasts = (props) => {
         <div className={classes.favorite}></div>
       </div>
       <div className={classes.content}>
-        <span className={classes.condition}>Sunny</span>
+        <span className={classes.condition}>{condition}</span>
         <div className={classes.forecasts}>
           {data.length > 0 &&
             data.map((item, i) => {
               let ts = item.EpochDate;
-              let date = new Date(ts);
-              let day = date.getDate();
-
-              console.log("day");
+              let day = new Date(ts * 1000).toLocaleDateString("en-US", {
+                weekday: "short",
+              });
+              let temp = item?.Temperature?.Maximum?.Value;
+              let unit = item?.Temperature?.Maximum?.Unit;
 
               return (
                 <span className={classes.dayBox} key={i}>
-                  <span className={classes.day}>Sun</span>
-                  <span className={classes.temp}>36c</span>
+                  <span className={classes.day}>{day}</span>
+                  <span className={classes.temp}>{`${temp} ${unit}`}</span>
                 </span>
               );
             })}
