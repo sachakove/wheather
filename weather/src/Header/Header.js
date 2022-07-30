@@ -11,15 +11,16 @@ const Header = (props) => {
   const autoComplete = async () => {
     const result = await fetch(`${url}${location}${key}&q=${searchInput}`);
     const data = await result.json();
-    setLocations(() => data);
+    return setLocations(() => data);
   };
 
   useEffect(() => {
     if (
       searchInput.length % 3 === 0 &&
       searchInput.length > 0 &&
-      searchInput.length != counter
+      searchInput.length !== counter
     ) {
+      console.log("here");
       setCounter(() => searchInput.length);
       autoComplete(searchInput);
     }
@@ -27,8 +28,10 @@ const Header = (props) => {
 
   //  handaling locationsBox appearence
   useEffect(() => {
-    if (!searchInput.trim() && locations.length > 0) {
+    console.log(locations);
+    if (searchInput.length === 0 && locations.length > 0) {
       setLocations(() => []);
+      setCounter(0);
     }
   }, [searchInput, locations]);
 
